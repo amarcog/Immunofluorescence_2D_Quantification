@@ -1,6 +1,6 @@
 //Set your output folder
 
-output = "F:/Transfer_to_HIVE_118TB/Andres/Immunofluorescence-quantification/" 
+output = "F:/Transfer_to_HIVE_118TB/Andres/CARDIO-Project/C240522-d27-Sections/COMBO1/Result-SumIP/" 
 
 //Set your file extension. Input ".tif"
 
@@ -8,16 +8,16 @@ Extension = ".tif"
 
 //Set markers name for each channel
 
-markerCh1_name = "ACE2";
-markerCh2_name = "WT1";
-markerCh3_name = "DAPI";
-markerCh4_name = "LTL";
+markerCh1_name = "DAPI";
+markerCh2_name = "MYH6_GFP";
+markerCh3_name = "ASA";
+markerCh4_name = "LAMININ";
 
 //Set colours of your channels (Entry values should be as "Grays", "Red", "Green", "Blue", "Cyan", "Magenta", "Yellow")
 
-Color_ch1 = "Green";
-Color_ch2= "Red";
-Color_ch3= "Blue";
+Color_ch1 = "Blue";
+Color_ch2= "Green";
+Color_ch3= "Red";
 Color_ch4= "Grays";
 
 //Set threshold parameters:
@@ -30,10 +30,10 @@ Threshold_method = "Auto";
 //Inputs: "Default", "Huang","Intermodes", "IsoData", "IJ_IsoData", "Li", "MaxEntropy", "Mean"
 //"MinError", "Minimum", "Moments", "Otsu", "Percentile", "RenyiEntropy", "Shanbhag", "Triangle", "Yen"
 
-Auto_thres_met_ch1 = "Default";
+Auto_thres_met_ch1 = "Huang";
 Auto_thres_met_ch2 = "Default";
-Auto_thres_met_ch3 = "Default";
-Auto_thres_met_ch4 = "Default";
+Auto_thres_met_ch3 = "Otsu";
+Auto_thres_met_ch4 = "Otsu";
 
 //If "Intensity based", set grey intensity values used fot thresholding. 
 //Input: newArray(min,max); 
@@ -83,13 +83,13 @@ selectWindow(""+markerD_ch+""); saveAs("Tiff", ""+output+""+titlewoext+"_"+marke
 
 run("Merge Channels...", "c4=["+titlewoext+"_"+markerCh4_name+".tif] c1=["+titlewoext+"_"+markerCh3_name+".tif] c3=["+titlewoext+"_"+markerCh1_name+".tif] c2=["+titlewoext+"_"+markerCh2_name+".tif] keep create");
 saveAs("Tiff", ""+output+""+titlewoext+"_Composite.tif");
-selectWindow(""+titlewoext+"_Composite.tif");run("RGB Color");selectWindow(""+titlewoext+"_Composite.tif (RGB)"); saveAs("Tiff", ""+output+""+titlewoext+"_Mergedapi.tif");
+selectWindow(""+titlewoext+"_Composite.tif");run("RGB Color");selectWindow(""+titlewoext+"_Composite.tif (RGB)"); saveAs("Tiff", ""+output+""+titlewoext+"_Mergedapi_raw.tif");
 
 //Set scale in Mergedapi
 
-selectWindow(""+titlewoext+"_Mergedapi.tif"); height=getHeight;
+selectWindow(""+titlewoext+"_Mergedapi_raw.tif"); height=getHeight;
 run("Scale Bar...", "width="+Scale+" height="+height*0.02+" font=29 color=White background=None location=[Lower Right] hide");
-saveAs("Tiff", ""+output+""+titlewoext+"_Mergedapiscale.tif");
+saveAs("Tiff", ""+output+""+titlewoext+"_Mergedapiscale_raw.tif");
 
 run("Tile");
 
@@ -97,25 +97,25 @@ run("Tile");
 
 if (Threshold_method == "Auto") {
 
-selectWindow(""+titlewoext+"_"+markerCh1_name+".tif"); run("Duplicate...", ""+titlewoext+"_"+markerCh1_name+"-1.tif"); selectWindow(""+titlewoext+"_"+markerCh1_name+"-1.tif");
+selectWindow(""+titlewoext+"_"+markerCh1_name+".tif") ;getMinAndMax(min_ch1_i, max_ch1); run("Duplicate...", ""+titlewoext+"_"+markerCh1_name+"-1.tif"); selectWindow(""+titlewoext+"_"+markerCh1_name+"-1.tif");
 setAutoThreshold(Auto_thres_met_ch1+" dark");waitForUser("Readjust threshold manually if needed");run("Create Selection");resetThreshold();
 run("Measure");getMinAndMax(min_ch1, max_ch1);
 run("Create Mask");selectWindow("Mask"); run(Color_ch1); run("RGB Color");
 saveAs("Tiff", ""+output+""+titlewoext+"_"+markerCh1_name+"-Mask.tif");
 
-selectWindow(""+titlewoext+"_"+markerCh2_name+".tif"); run("Duplicate...", ""+titlewoext+"_"+markerCh2_name+"-1.tif"); selectWindow(""+titlewoext+"_"+markerCh2_name+"-1.tif");
+selectWindow(""+titlewoext+"_"+markerCh2_name+".tif");getMinAndMax(min_ch2_i, max_ch1); run("Duplicate...", ""+titlewoext+"_"+markerCh2_name+"-1.tif"); selectWindow(""+titlewoext+"_"+markerCh2_name+"-1.tif");
 setAutoThreshold(Auto_thres_met_ch2+" dark");waitForUser("Readjust threshold manually if needed");run("Create Selection");resetThreshold();
 run("Measure");getMinAndMax(min_ch2, max_ch2);
 run("Create Mask");selectWindow("Mask"); run(Color_ch2); run("RGB Color");
 saveAs("Tiff", ""+output+""+titlewoext+"_"+markerCh2_name+"-Mask.tif");
 
-selectWindow(""+titlewoext+"_"+markerCh3_name+".tif"); run("Duplicate...", ""+titlewoext+"_"+markerCh3_name+"-1.tif"); selectWindow(""+titlewoext+"_"+markerCh3_name+"-1.tif");
+selectWindow(""+titlewoext+"_"+markerCh3_name+".tif"); getMinAndMax(min_ch3_i, max_ch1); run("Duplicate...", ""+titlewoext+"_"+markerCh3_name+"-1.tif"); selectWindow(""+titlewoext+"_"+markerCh3_name+"-1.tif");
 setAutoThreshold(Auto_thres_met_ch3+" dark");waitForUser("Readjust threshold manually if needed");run("Create Selection");resetThreshold();
 run("Measure");getMinAndMax(min_ch3, max_ch3);
 run("Create Mask");selectWindow("Mask"); run(Color_ch3); run("RGB Color");
 saveAs("Tiff", ""+output+""+titlewoext+"_"+markerCh3_name+"-Mask.tif");
 
-selectWindow(""+titlewoext+"_"+markerCh4_name+".tif"); run("Duplicate...", ""+titlewoext+"_"+markerCh4_name+"-1.tif"); selectWindow(""+titlewoext+"_"+markerCh4_name+"-1.tif");
+selectWindow(""+titlewoext+"_"+markerCh4_name+".tif");getMinAndMax(min_ch4_i, max_ch1); run("Duplicate...", ""+titlewoext+"_"+markerCh4_name+"-1.tif"); selectWindow(""+titlewoext+"_"+markerCh4_name+"-1.tif");
 setAutoThreshold(Auto_thres_met_ch4+" dark");waitForUser("Readjust threshold manually if needed");run("Create Selection");resetThreshold();
 run("Measure");getMinAndMax(min_ch4, max_ch4);
 run("Create Mask");selectWindow("Mask"); run(Color_ch4); run("RGB Color");
@@ -123,25 +123,25 @@ saveAs("Tiff", ""+output+""+titlewoext+"_"+markerCh4_name+"-Mask.tif");
 
 } else if (Threshold_method == "Intensity based") {
 	
-selectWindow(""+titlewoext+"_"+markerCh1_name+".tif"); run("Duplicate...", ""+titlewoext+"_"+markerCh1_name+"-1.tif"); selectWindow(""+titlewoext+"_"+markerCh1_name+"-1.tif");
+selectWindow(""+titlewoext+"_"+markerCh1_name+".tif"); getMinAndMax(min_ch1_i, max_ch1); run("Duplicate...", ""+titlewoext+"_"+markerCh1_name+"-1.tif"); selectWindow(""+titlewoext+"_"+markerCh1_name+"-1.tif");
 setThreshold(Thres_values_ch1[0], Thres_values_ch1[1]);waitForUser("Readjust threshold manually if needed");run("Create Selection");resetThreshold();
 run("Measure");getMinAndMax(min_ch1, max_ch1);
 run("Create Mask");selectWindow("Mask"); run(Color_ch1); run("RGB Color");
 saveAs("Tiff", ""+output+""+titlewoext+"_"+markerCh1_name+"-Mask.tif");
 
-selectWindow(""+titlewoext+"_"+markerCh2_name+".tif"); run("Duplicate...", ""+titlewoext+"_"+markerCh2_name+"-1.tif"); selectWindow(""+titlewoext+"_"+markerCh2_name+"-1.tif");
+selectWindow(""+titlewoext+"_"+markerCh2_name+".tif"); getMinAndMax(min_ch2_i, max_ch1); run("Duplicate...", ""+titlewoext+"_"+markerCh2_name+"-1.tif"); selectWindow(""+titlewoext+"_"+markerCh2_name+"-1.tif");
 setThreshold(Thres_values_ch2[0], Thres_values_ch2[1]);waitForUser("Readjust threshold manually if needed");run("Create Selection");resetThreshold();
 run("Measure");getMinAndMax(min_ch2, max_ch2);
 run("Create Mask");selectWindow("Mask"); run(Color_ch2); run("RGB Color");
 saveAs("Tiff", ""+output+""+titlewoext+"_"+markerCh2_name+"-Mask.tif");
 
-selectWindow(""+titlewoext+"_"+markerCh3_name+".tif"); run("Duplicate...", ""+titlewoext+"_"+markerCh3_name+"-1.tif"); selectWindow(""+titlewoext+"_"+markerCh3_name+"-1.tif");
+selectWindow(""+titlewoext+"_"+markerCh3_name+".tif"); getMinAndMax(min_ch3_i, max_ch1); run("Duplicate...", ""+titlewoext+"_"+markerCh3_name+"-1.tif"); selectWindow(""+titlewoext+"_"+markerCh3_name+"-1.tif");
 setThreshold(Thres_values_ch3[0], Thres_values_ch3[1]);waitForUser("Readjust threshold manually if needed");run("Create Selection");resetThreshold();
 run("Measure");getMinAndMax(min_ch3, max_ch3);
 run("Create Mask");selectWindow("Mask"); run(Color_ch3); run("RGB Color");
 saveAs("Tiff", ""+output+""+titlewoext+"_"+markerCh3_name+"-Mask.tif");
 
-selectWindow(""+titlewoext+"_"+markerCh4_name+".tif"); run("Duplicate...", ""+titlewoext+"_"+markerCh4_name+"-1.tif"); selectWindow(""+titlewoext+"_"+markerCh4_name+"-1.tif");
+selectWindow(""+titlewoext+"_"+markerCh4_name+".tif"); getMinAndMax(min_ch4_i, max_ch1);run("Duplicate...", ""+titlewoext+"_"+markerCh4_name+"-1.tif"); selectWindow(""+titlewoext+"_"+markerCh4_name+"-1.tif");
 setThreshold(Thres_values_ch4[0], Thres_values_ch4[1]);waitForUser("Readjust threshold manually if needed");run("Create Selection");resetThreshold();
 run("Measure");getMinAndMax(min_ch4, max_ch4);
 run("Create Mask");selectWindow("Mask"); run(Color_ch4); run("RGB Color");
@@ -155,14 +155,30 @@ saveAs("Tiff", ""+output+""+titlewoext+"_"+markerCh4_name+"-Mask.tif");
 
 saveAs("Results", ""+output+""+titlewoext+".csv"); //run("Clear Results");
 
-//Make montage colours
+//Adjust colors as quantified, generate the adjusted merge and then convert adjusted colors to rgb
 
-selectWindow(""+titlewoext+"_"+markerCh1_name+".tif"); run(Color_ch1); setMinAndMax(0, (min_ch1+((max_ch1-min_ch1)*0.7))); run("RGB Color");
-selectWindow(""+titlewoext+"_"+markerCh2_name+".tif"); run(Color_ch2); setMinAndMax(0, (min_ch2+((max_ch2-min_ch2)*0.7))); run("RGB Color");
-selectWindow(""+titlewoext+"_"+markerCh3_name+".tif"); run(Color_ch3); setMinAndMax(0, (min_ch3+((max_ch3-min_ch3)*0.7))); run("RGB Color");
-selectWindow(""+titlewoext+"_"+markerCh4_name+".tif"); run(Color_ch4); setMinAndMax(0, (min_ch4+((max_ch4-min_ch4)*0.7))); run("RGB Color");
+selectWindow(""+titlewoext+"_"+markerCh1_name+".tif"); run(Color_ch1); setMinAndMax(min_ch1_i, (min_ch1+((max_ch1-min_ch1)*0.3)));
+selectWindow(""+titlewoext+"_"+markerCh2_name+".tif"); run(Color_ch2); setMinAndMax(min_ch2_i, (min_ch2+((max_ch2-min_ch2)*0.3)));
+selectWindow(""+titlewoext+"_"+markerCh3_name+".tif"); run(Color_ch3); setMinAndMax(min_ch3_i, (min_ch3+((max_ch3-min_ch3)*0.3))); 
+selectWindow(""+titlewoext+"_"+markerCh4_name+".tif"); run(Color_ch4); setMinAndMax(min_ch4_i, (min_ch4+((max_ch4-min_ch4)*0.3))); 
 
-run("Concatenate...", "  title=[Stack] image1=["+titlewoext+"_"+markerCh1_name+".tif] image2=["+titlewoext+"_"+markerCh2_name+".tif] image3=["+titlewoext+"_"+markerCh3_name+".tif] image4=["+titlewoext+"_"+markerCh4_name+".tif] image5=["+titlewoext+"_Mergedapiscale.tif]");
+run("Merge Channels...", "c4=["+titlewoext+"_"+markerCh4_name+".tif] c1=["+titlewoext+"_"+markerCh3_name+".tif] c3=["+titlewoext+"_"+markerCh1_name+".tif] c2=["+titlewoext+"_"+markerCh2_name+".tif] keep create");
+run("RGB Color");saveAs("Tiff", ""+output+""+titlewoext+"_Mergedapi_adj.tif");
+
+selectWindow(""+titlewoext+"_"+markerCh1_name+".tif"); run("RGB Color");
+selectWindow(""+titlewoext+"_"+markerCh2_name+".tif"); run("RGB Color");
+selectWindow(""+titlewoext+"_"+markerCh3_name+".tif"); run("RGB Color");
+selectWindow(""+titlewoext+"_"+markerCh4_name+".tif"); run("RGB Color");
+
+//Set scale in Mergedapi
+
+selectWindow(""+titlewoext+"_Mergedapi_adj.tif"); height=getHeight;
+run("Scale Bar...", "width="+Scale+" height="+height*0.02+" font=29 color=White background=None location=[Lower Right] hide");
+saveAs("Tiff", ""+output+""+titlewoext+"_Mergedapi_adj_scale.tif");
+
+run("Tile");
+
+run("Concatenate...", "  title=[Stack] image1=["+titlewoext+"_"+markerCh1_name+".tif] image2=["+titlewoext+"_"+markerCh2_name+".tif] image3=["+titlewoext+"_"+markerCh3_name+".tif] image4=["+titlewoext+"_"+markerCh4_name+".tif] image5=["+titlewoext+"_Mergedapi_adj_scale.tif]");
 run("Make Montage...", "columns=5 rows=1 scale=1 first=1 last=5");
 selectWindow("Montage");run("RGB Color");saveAs("Tiff", ""+output+""+titlewoext+"_Montage_colors.tif");
 close("Stack");
