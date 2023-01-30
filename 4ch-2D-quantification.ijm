@@ -1,6 +1,6 @@
 //Set your output folder
 
-output = "F:/Transfer_to_HIVE_118TB/Andres/CARDIO-Project/C240522-d27-Sections/COMBO1/Result-SumIP/" 
+output = "F:/PATH/TO/YOUR/RESULTS/FOLDER/" 
 
 //Set your file extension. Input ".tif"
 
@@ -9,9 +9,9 @@ Extension = ".tif"
 //Set markers name for each channel
 
 markerCh1_name = "DAPI";
-markerCh2_name = "MYH6_GFP";
-markerCh3_name = "ASA";
-markerCh4_name = "LAMININ";
+markerCh2_name = "WT1";
+markerCh3_name = "ACE2";
+markerCh4_name = "LTL";
 
 //Set colours of your channels (Entry values should be as "Grays", "Red", "Green", "Blue", "Cyan", "Magenta", "Yellow")
 
