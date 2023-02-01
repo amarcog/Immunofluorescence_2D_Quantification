@@ -12,7 +12,7 @@ import os
 
 #Fill with your output folder:
 
-os.chdir(r"F:/Transfer_to_HIVE_118TB/Andres/CARDIO-Project/C240522-d27-Sections/COMBO1/Result-SumIP/")
+os.chdir("/PATH/TO/YOUR/FOLDER")
 
 #Fill with your experiment name
 
@@ -21,9 +21,9 @@ name_exp = "COMBO1";
 #Fill with the marker names (Same order as in the macro for Imagej)
 
 markerA_name = "DAPI"
-markerB_name = "MYH6_GFP"
-markerC_name = "ASA"
-markerD_name = "LAMININ"
+markerB_name = "WT1"
+markerC_name = "ACE2"
+markerD_name = "LTL"
 
 #From now on, don't modify the script.
 
@@ -79,20 +79,20 @@ for i in range(0,len(dflist)):
     C_Area.append(dflist[i].Area[2])
     D_Area.append(dflist[i].Area[3])
 
-    A_Mean.append(dflist[i].IntDen[0])
-    B_Mean.append(dflist[i].IntDen[1])
-    C_Mean.append(dflist[i].IntDen[2])
-    D_Mean.append(dflist[i].IntDen[3])
+    A_Mean.append(dflist[i].Mean[0])
+    B_Mean.append(dflist[i].Mean[1])
+    C_Mean.append(dflist[i].Mean[2])
+    D_Mean.append(dflist[i].Mean[3])
 
     A_IntD.append(dflist[i].IntDen[0])
     B_IntD.append(dflist[i].IntDen[1])
     C_IntD.append(dflist[i].IntDen[2])
     D_IntD.append(dflist[i].IntDen[3])
     
-    A_RawIntD.append(dflist[i].IntDen[0])
-    B_RawIntD.append(dflist[i].IntDen[1])
-    C_RawIntD.append(dflist[i].IntDen[2])
-    D_RawIntD.append(dflist[i].IntDen[3])
+    A_RawIntD.append(dflist[i].RawIntDen[0])
+    B_RawIntD.append(dflist[i].RawIntDen[1])
+    C_RawIntD.append(dflist[i].RawIntDen[2])
+    D_RawIntD.append(dflist[i].RawIntDen[3])
 
     
 df = pd.DataFrame({'Photo_name': Photo_name,\
