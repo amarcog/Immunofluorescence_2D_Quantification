@@ -11,3 +11,9 @@ After following macro instructions (pop-up windows),  the final output will be:
 Resulting files will be stored in the output path (output folder) that you introduced in the macro interpreter:
 
 ![Output Files](Output_files.PNG)
+
+Use the "Parsing_Results.py" script by using a python interpreter to merge data from multiple csv files into a simple excel (.xlsx) file.
+
+Use the "Custom_Projection.ijm" ImageJ macro to project Z-stacks prior 2D quantification. Chose the kind of projection you want to use for each channel.
+
+Use the "Test_all_Auto-Threshold-Methods.ijm" to try all possible Autothreshold Methods of ImageJ (similar to try all command).
