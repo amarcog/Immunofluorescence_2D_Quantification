@@ -41,9 +41,9 @@ Auto_thres_met_ch4 = "Otsu";
 // max should be the "Number of your maximum grey intensity value"
  
 Thres_values_ch1 = newArray("0","4095");
-Thres_values_ch1 = newArray("0","4095");
-Thres_values_ch1 = newArray("0","4095");
-Thres_values_ch1 = newArray("0","4095");
+Thres_values_ch2 = newArray("0","4095");
+Thres_values_ch3 = newArray("0","4095");
+Thres_values_ch4 = newArray("0","4095");
 
 //Set scale
 
